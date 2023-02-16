@@ -7,28 +7,28 @@ import { UpdatePhotoDto } from './dto/update-photo.dto';
 export class PhotosController {
   constructor(private readonly photosService: PhotosService) {}
 
-  @Post()
-  create(@Body() createPhotoDto: CreatePhotoDto) {
-    return this.photosService.create(createPhotoDto);
-  }
+  // @Post()
+  // public create(@Body() createPhotoDto: CreatePhotoDto) {
+  //   return this.photosService.create(createPhotoDto);
+  // }
 
   @Get()
-  findAll() {
-    return this.photosService.findAll();
+  getAll() {
+    return this.photosService.getAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.photosService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.photosService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePhotoDto: UpdatePhotoDto) {
-    return this.photosService.update(+id, updatePhotoDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updatePhotoDto: UpdatePhotoDto) {
+  //   return this.photosService.update(+id, updatePhotoDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.photosService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.photosService.remove(+id);
+  // }
 }

@@ -10,10 +10,11 @@ export class Photo {
 
   @Column()
   lastName: string;
+  
+  @Column()
+  username:string;
 
   @Column()
   fileName: string;
 
-  @Column({ default: true })
-  isActive: boolean;
 }

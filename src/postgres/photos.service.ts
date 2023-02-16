@@ -9,27 +9,35 @@ import { Photo } from './entities/photo.entity';
 export class PhotosService {
   
   constructor(
-    @InjectRepository(Photo)
+    @InjectRepository(Photo) 
     private photosRepository: Repository<Photo>,
   ) {}
   
-  create(createPhotoDto: CreatePhotoDto) {
-    return this.photosRepository.create(createPhotoDto);
+  async getAll(){
+    return await this.photosRepository.find()
+  }
+  
+  // async getById(id: number){
+  //   return this.photosRepository.getId()
+  // }
+
+  async create(createPhotoDto: CreatePhotoDto) {
+    return await this.photosRepository.save(createPhotoDto);
   }
 
-  findAll() {
-    return `This action returns all photos`;
-  }
+  // findAll() {
+  //   return `This action returns all photos`;
+  // }
 
-  findOne(id: number) {
-    return `This action returns a #${id} photo`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} photo`;
+  // }
 
-  update(id: number, updatePhotoDto: UpdatePhotoDto) {
-    return `This action updates a #${id} photo`;
-  }
+  // update(id: number, updatePhotoDto: UpdatePhotoDto) {
+  //   return `This action updates a #${id} photo`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} photo`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} photo`;
+  // }
 }

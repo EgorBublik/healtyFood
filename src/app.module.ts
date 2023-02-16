@@ -1,18 +1,21 @@
 import { Module } from '@nestjs/common';
-import { TelegrafModule } from 'nestjs-telegraf';
-import * as LocalSession from 'telegraf-session-local';
-import { TelegramBotService } from './telegram-bot/telegram-bot.service';
+// import { TelegrafModule } from 'nestjs-telegraf';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PhotosModule } from './postgres/photos.module';
-const sessions = new LocalSession({database: 'sesion_db.json'})
 import { AdminModule } from '@adminjs/nestjs'
 import { Photo } from './postgres/entities/photo.entity';
 import * as AdminJSTypeorm from '@adminjs/typeorm'
 import AdminJS from 'adminjs'
+import { TelegramModule } from './telegram-bot/telegram.module';
+import { TelegramService } from './telegram-bot/telegram.service';
+import { TelegramController } from './telegram-bot/telegram.controller';
+
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
  
 const DEFAULT_ADMIN = {
-  email: '',
-  password: '',
+  email: 'admin@example.com',
+  password: 'password',
 }
 
 const authenticate = async (email: string, password: string) => {
@@ -47,24 +50,28 @@ AdminJS.registerAdapter({
         },
       }),
     }),
-    TelegrafModule.forRoot({
-      middlewares: [sessions.middleware()],
-      token: ''
-    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
       port: 5432,
       username: '',
       password: '',
-      database: 'healthyfood',
+      database: '',
       autoLoadEntities: true,
       synchronize: true,
     }),
-    PhotosModule,
-    
+    PhotosModule,   
+    TelegramModule,
+    ServeStaticModule.forRoot({
+      serveRoot: '/images',
+      rootPath: join(__dirname, '..', 'src/photo'),
+      serveStaticOptions: {
+        index: false,
+      },
+    }),
   ],
-  controllers: [],
-  providers: [TelegramBotService],
+  controllers: [TelegramController],
+  providers: [TelegramService],
 })
 export class AppModule {}
+   
