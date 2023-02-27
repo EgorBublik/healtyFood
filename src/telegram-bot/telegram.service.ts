@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreatePhotoDto } from 'src/postgres/dto/create-photo.dto';
-import { PhotosService } from 'src/postgres/photos.service';
+import { CreatePhotoDto } from 'src/postgres/photos/dto/create-photo.dto';
+import { PhotosService } from 'src/postgres/photos/photos.service';
 
 @Injectable()
 export class TelegramService {

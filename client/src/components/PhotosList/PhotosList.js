@@ -13,7 +13,6 @@ const PhotosList = observer(() => {
         store.photoStore.getPhotos()
     }, [updatePhotos])
     
-    console.log(photos)
     return (
 
         <div className="App">
@@ -34,7 +33,7 @@ const PhotosList = observer(() => {
                         return (
                             <div className='col-10 row'>
                                 <div className='col-4'>
-                                    <img className='.img-thumbnail' width="350" height="300" src={`${photo.fileName}.jpg`} alt='food'/>
+                                    <img className='.img-thumbnail' width="350" height="300" src={`http://localhost:4000/images/${photo.fileName}.jpg`} alt='food'/>
                                 </div>
                                 <div className='col-6'>
                                     <span> UserName: {photo.username}</span>

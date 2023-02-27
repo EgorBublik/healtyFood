@@ -17,13 +17,15 @@ export class PhotosService {
     return await this.photosRepository.find()
   }
   
+  async create(createPhotoDto: CreatePhotoDto) {
+    return await this.photosRepository.save(createPhotoDto);
+  }
+
   // async getById(id: number){
   //   return this.photosRepository.getId()
   // }
 
-  async create(createPhotoDto: CreatePhotoDto) {
-    return await this.photosRepository.save(createPhotoDto);
-  }
+  
 
   // findAll() {
   //   return `This action returns all photos`;

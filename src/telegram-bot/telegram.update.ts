@@ -3,7 +3,7 @@ import { Context } from "telegraf";
 import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid'
 // import { TelegramController } from 'src/telegram-bot/telegram.controller';
-import { PhotosService } from "src/postgres/photos.service";
+import { PhotosService } from "src/postgres/photos/photos.service";
 import { Injectable } from "@nestjs/common";
 
 @Update()
@@ -20,7 +20,6 @@ export class TelegramUpdate{
 
   @Hears('1')
   async hearsHi1(ctx: Context) {
-    console.log(ctx.message)  
     await ctx.reply(
       'Choose1'
     )
@@ -28,7 +27,6 @@ export class TelegramUpdate{
 
   @On('sticker')
   async on1(ctx: Context) {
-    console.log(ctx.message)
     await ctx.reply('👍');
   }
 
@@ -40,7 +38,6 @@ export class TelegramUpdate{
     
     var fs = require('fs');
     ctx.telegram.getFileLink(fileId).then(url => {   
-      console.log("LOG URL " + url); 
       axios({url, responseType: 'stream'}).then(response => {
         
         const dataPhoto = {

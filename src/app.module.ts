@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 // import { TelegrafModule } from 'nestjs-telegraf';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PhotosModule } from './postgres/photos.module';
+import { PhotosModule } from './postgres/photos/photos.module';
 import { AdminModule } from '@adminjs/nestjs'
-import { Photo } from './postgres/entities/photo.entity';
+import { Photo } from './postgres/photos/entities/photo.entity';
 import * as AdminJSTypeorm from '@adminjs/typeorm'
 import AdminJS from 'adminjs'
 import { TelegramModule } from './telegram-bot/telegram.module';
@@ -12,10 +12,12 @@ import { TelegramController } from './telegram-bot/telegram.controller';
 
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { UsersModule } from './postgres/users/users.module';
+import { AuthModule } from './auth/auth.module';
  
 const DEFAULT_ADMIN = {
-  email: 'admin@example.com',
-  password: 'password',
+  email: '',
+  password: '',
 }
 
 const authenticate = async (email: string, password: string) => {
@@ -61,6 +63,8 @@ AdminJS.registerAdapter({
       synchronize: true,
     }),
     PhotosModule,   
+    UsersModule,
+    AuthModule,
     TelegramModule,
     ServeStaticModule.forRoot({
       serveRoot: '/images',

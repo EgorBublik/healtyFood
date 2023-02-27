@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { InjectBot } from 'nestjs-telegraf';
-import { CreatePhotoDto } from 'src/postgres/dto/create-photo.dto';
-import { PhotosService } from 'src/postgres/photos.service';
+import { CreatePhotoDto } from 'src/postgres/photos/dto/create-photo.dto';
+import { PhotosService } from 'src/postgres/photos/photos.service';
 import { Context, Telegraf } from 'telegraf';
 import { TelegramService } from './telegram.service';
 
