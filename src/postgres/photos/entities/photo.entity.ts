@@ -17,4 +17,6 @@ export class Photo {
   @Column()
   fileName: string;
 
+  @Column({ type: 'timestamp', nullable: true })
+  dateTime: Date;
 }

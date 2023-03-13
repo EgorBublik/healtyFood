@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-// import { TelegrafModule } from 'nestjs-telegraf';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PhotosModule } from './postgres/photos/photos.module';
 import { AdminModule } from '@adminjs/nestjs'

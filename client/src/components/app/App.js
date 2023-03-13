@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import PhotosList from '../PhotosList/PhotosList';
+import Header from '../Header/Header';
 import Authorization from '../authorization/authorization';
 import { RootStoreProvider, RootStore } from '../../store/rootstore';
 import { Routes, Route, Navigate} from "react-router-dom";
 import { history } from '../../history/history';
 import './App.css';
+import DiarysList from '../diary/Diary';
 
 const App = () => {
 
@@ -27,14 +29,14 @@ const App = () => {
 
     <RootStoreProvider value={rootStore} history={history}>
       <div className="app">
-        
+        {/* <Header/> */}
         {isLoggedIn && <>
             <Routes>
-              <Route path="photos" element={<PhotosList />} />
-              {/* <Route path="/authorization" element={<Authorization />} /> */}
+              {/* <Route path="photos" element={<PhotosList />} /> */}
+              <Route path="diary" element={<DiarysList />} />
             </Routes>
           </>
-        }
+        } 
         
         {!isLoggedIn && <>
             <Routes>

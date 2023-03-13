@@ -18,18 +18,6 @@ export class TelegramUpdate{
       await ctx.reply('hi, friend! you are awesome')   
   }  
 
-  @Hears('1')
-  async hearsHi1(ctx: Context) {
-    await ctx.reply(
-      'Choose1'
-    )
-  }
-
-  @On('sticker')
-  async on1(ctx: Context) {
-    await ctx.reply('👍');
-  }
-
   @On('photo')
   async hearsHi(ctx) {
     
@@ -38,14 +26,16 @@ export class TelegramUpdate{
     
     var fs = require('fs');
     ctx.telegram.getFileLink(fileId).then(url => {   
-      axios({url, responseType: 'stream'}).then(response => {
+      axios({url, responseType: 'stream'}).then(response => {        
         
         const dataPhoto = {
           firstName: ctx.message.from.first_name,
           lastName: ctx.message.from.last_name,
           username: ctx.message.from.username,
-          fileName: uuidv4()
+          fileName: uuidv4(),
+          dateTime: new Date(ctx.message.date * 1000) // UNIX format
         }
+
         this.photosService.create(dataPhoto).then(result => console.log('result ', result)).catch(error => console.log(error))
 
         this.photosService.getAll().then(result => console.log('getall', result))
@@ -60,8 +50,5 @@ export class TelegramUpdate{
       });
     })
             
-    await ctx.reply(
-      'Choose'
-    )
   }
 }

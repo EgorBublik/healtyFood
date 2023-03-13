@@ -16,7 +16,7 @@ export const checkAuthorization = async (authState) => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", authState.username)
       setAuthToken(token);
-      window.location.href = './photos'
+      window.location.href = './diary'
       return
     })
 }

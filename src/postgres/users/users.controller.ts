@@ -21,8 +21,8 @@ export class UsersController {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt);
     const result = await this.usersService.createUser(
-        username,
-        hashedPassword,
+      username,
+      hashedPassword,
     );
     return result;
   }
