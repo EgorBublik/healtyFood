@@ -1,59 +1,82 @@
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../store/rootstore'; 
 import { useEffect, useState } from 'react';
-import {format, getMinutes} from 'date-fns'
+import {format, startOfWeek, endOfWeek, previousMonday, nextMonday, startOfDay} from 'date-fns'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import './diary.css'
 
 const DiarysList = observer(() => {
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
     
-    const [updatePhotos, setUpdatePhotos] = useState(0)
+    const [updatePhotos] = useState(0)
 
     const store = useStores()
     const photos = store.photoStore.photos
     
+    const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
     useEffect(() => {
         store.photoStore.getPhotos()
     }, [updatePhotos])
 
     useEffect(() => {
-        lastWeek()
+        getDatesOfWeek(new Date())
     }, [])
-    
+
 
     const filterPhotos = photos.filter((photo) => {
-        return new Date(photo.dateTime).getTime() >= startDate.getTime() && new Date(photo.dateTime).getTime() <= endDate.getTime() + 24 * 60 * 60 * 1000
+        return new Date(photo.date).getTime() >= startDate.getTime() && new Date(photo.date).getTime() <= endDate.getTime() + 24 * 60 * 60 * 1000
     })    
     
     const sortedImages = filterPhotos.reduce((acc, image) => {
-        const date = format(new Date(image.dateTime), 'yyyy-MM-dd');
+        const date = format(new Date(image.date), 'yyyy-MM-dd');
         if (!acc[date]) {
             acc[date] = []
         }
         acc[date].push(image)
         return acc
     }, {}) 
-    
 
-    function lastWeek (dateStr) {
-        if (!dateStr) dateStr = new Date().getTime();
-        var dt = new Date(dateStr);
-        dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
-        dt = new Date(dt.getTime() - (dt.getDay() > 0 ? (dt.getDay() - 1) * 1000 * 60 * 60 * 24 : 6 * 1000 * 60 * 60 * 24));
-        var endDate = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 7 - 1);
-        var dt1 = new Date(dateStr)
-        if(endDate >= new Date()){
-            endDate = new Date(dt1.getFullYear(), dt1.getMonth(), dt1.getDate(), endDate.getHours(), endDate.getMinutes(), endDate.getSeconds());
+    const getDatesOfWeek = (date) => {
+
+        const startWeek = startOfWeek(date, { weekStartsOn: 1 });
+        let endWeek = endOfWeek(date, {weekStartsOn: 1});
+        if(endWeek >= date){
+            endWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate(), endWeek.getHours(), endWeek.getMinutes(), endWeek.getSeconds());
         }
-        console.log(endDate)
-        setStartDate(dt)
-        setEndDate(endDate)
-        return
+        setStartDate(startWeek)
+        setEndDate(endWeek)
+
+        return;
+    }
+   
+    const rangeWeek = (func) => {
+        switch(func) {
+            case 'prev':         
+                setStartDate(previousMonday(startDate))
+                setEndDate(endOfWeek(previousMonday(startDate), {weekStartsOn: 1}))
+            break;
+
+            case 'next':
+                if (nextMonday(startDate) >= new Date()){
+                    break;
+                } else {
+                    setStartDate(nextMonday(startDate))
+                    setEndDate(endOfWeek(nextMonday(startDate), {weekStartsOn: 1}))
+                }
+            break;
+        }
     }
 
     const getDays = (day) => {
         switch (day) {
+            case 0: 
+                return "Воскресенье"
             case 1: 
                 return "Понедельник"
             case 2: 
@@ -66,73 +89,66 @@ const DiarysList = observer(() => {
                 return "Пятница"
             case 6: 
                 return "Суббота"
-            case 7: 
-                return "Воскресенье"
+            
         }
-    }
-
-    const rangeWeek = (func) => {
-        
-        var dateStr = new Date().getTime();
-        var dt = new Date(dateStr);
-        dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
-        var end = new Date(endDate);
-        var start = new Date(startDate)
-        
-        switch(func) {
-            case 'prev': 
-                if (dt.getDay() > 0 ) {
-                    var start = start.setTime(start.getTime() - (60 * 60 * 24 * 1000 * 7))
-                    var start = new Date(start)
-                    var end = end.setTime(end.getTime() - (60 * 60 * 24 * 1000 * dt.getDay()))
-                    var end = new Date(end)
-                }    
-                break;
-
-            case 'next':
-                if (end >= dt){
-                    break;
-                } else {
-                    var start = start.setTime(start.getTime() + (60 * 60 * 24 * 1000 * 7))
-                    var start = new Date(start)
-                    var end = end.setTime(end.getTime() + (60 * 60 * 24 * 1000 * dt.getDay()))
-                    var end = new Date(end)
-                }
-                break;
-        }
-        
-        setStartDate(start)
-        setEndDate(end)
     }
 
     return (
 
-        <div className="diary">
-            <div className='container'>
-                <div className="date-switcher btn-group" role="group" aria-label="Basic example">
-                    <button type="button" onClick={() => rangeWeek('prev')} className="btn btn-secondary"> {'<'} </button>
-                    <button type="" className="btn-secondary">{new Date(startDate).toLocaleDateString('ru-RU')} — {new Date(endDate).toLocaleDateString('ru-RU')} </button>
-                    <button type="button" onClick={() => rangeWeek('next')} className="btn btn-secondary"> {'>'} </button>
-                </div>
-
-                <div className='diary-items'>
-                    {
-                        Object.keys(sortedImages).map(date => (
-                            <div key={date}>
-                                <h2>{getDays(new Date(date).getDay())}</h2>
-                                <div>
-                                    {sortedImages[date].map(image => (
-                                        // <div className=''>
-                                            <img className='.img-thumbnail' width="350" height="300" src={`http://localhost:4001/images/${image.fileName}.jpg`} alt='food'/>
-                                        // </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))
-                    }
-                    
+        <div className="diary container">
+            <div className='date-switcher'>
+                <div className="date-switcher btn-group" role="group">
+                    <button className="btn btn-secondary" type="button" onClick={() => rangeWeek('prev')}> {'<'} </button>
+                    <button className="btn btn-outline-secondary middle-button" type="button" >
+                        {
+                            console.log(startOfDay(new Date()))
+                        }
+                        {
+                           startOfDay(new Date()) > new Date(startDate) ? 
+                            `${new Date(startDate).toLocaleDateString('ru-RU')} — ${new Date(endDate).toLocaleDateString('ru-RU')}` 
+                            : new Date(startDate).toLocaleDateString('ru-RU')
+                        } 
+                    </button>
+                    <button className="btn btn-secondary" type="button" onClick={() => rangeWeek('next')}> {'>'} </button>
                 </div>
             </div>        
+
+            <>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Что-то если надо</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Картинка, описание, комментарий и т.д.</Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
+            </>
+            <div className='diary-group-items'>
+                {
+                    Object.keys(sortedImages).map(date => (
+                        <div key={date} className='diary-items'>
+                            {console.log(new Date(date).getDay())}
+                            <h2>{getDays(new Date(date).getDay())}, {new Date(date).getDate()}.{new Date(date).getMonth() < 9 ? `0${new Date(date).getMonth()}` : new Date(date).getMonth()}</h2>
+                            <div className='food-pictures'>
+                                {sortedImages[date].map(image => (
+                                    <div className='food-picture'>
+                                        <img className='food-picture-img' onClick={handleShow} src={`http://localhost:4001/images/${image.fileName}.jpg`} alt='food'/>
+                                        <div className="time-bg"></div>
+                                        <div className="time">{new Date(image.date).getHours()}:{new Date(image.date).getMinutes()}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))
+                }
+                
+            </div>
         </div>
     )
 

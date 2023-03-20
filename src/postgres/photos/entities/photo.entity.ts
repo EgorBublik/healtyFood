@@ -18,5 +18,5 @@ export class Photo {
   fileName: string;
 
   @Column({ type: 'timestamp', nullable: true })
-  dateTime: Date;
+  date: Date;
 }

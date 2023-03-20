@@ -1,27 +1,16 @@
-
 .header {
-    border-bottom: 1px solid lightslategray;
+    padding: 10px 30px;
     margin-bottom: 30px;
-    height: 150px;
-    /* background-color: #0c5da5; */
-    background-color: #679FD2;
-
+    /* box-shadow: 0px 2px 6px 0px rgba(169, 169, 169, 1) */
+    border-bottom: 1.5px dashed Gainsboro;
 }
 
-.inner-header {
-    position: absolute;
-    background-color: #408dd2;
-
-    margin: 30px;
-    width: 96vw;
-    height: 120px;
-    /* border-radius: 10px */
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    padding: 15px;
+.right-header {
+    text-align: right;
 }
 
-.inner-header h1 {
-    position: relative;
-    top: 20px
+.qw button{
+    background-color: white;
+    border: 1px solid blue;
+    color: blue;
 }

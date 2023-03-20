@@ -4,5 +4,5 @@ export class CreatePhotoDto {
   lastName: string;
   username: string;
   fileName: string;
-  dateTime: Date;
+  date: Date;
 }

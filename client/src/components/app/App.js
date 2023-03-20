@@ -8,6 +8,7 @@ import { history } from '../../history/history';
 import './App.css';
 import DiarysList from '../diary/Diary';
 
+
 const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token"))
@@ -29,8 +30,9 @@ const App = () => {
 
     <RootStoreProvider value={rootStore} history={history}>
       <div className="app">
-        {/* <Header/> */}
         {isLoggedIn && <>
+          <Header/>
+
             <Routes>
               {/* <Route path="photos" element={<PhotosList />} /> */}
               <Route path="diary" element={<DiarysList />} />

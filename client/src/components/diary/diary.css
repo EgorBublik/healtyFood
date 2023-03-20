@@ -1,8 +1,56 @@
 .diary {
-    text-align: center;
+    /* text-align: center; */
     margin-top: 15px;
 }
 
-.img {
-    margin: 10px
+.date-switcher{
+    text-align: center;
 }
+
+.middle-button{
+    color: black !important; 
+    pointer-events: none !important;
+}
+
+.diary-items {
+    margin-top: 15px;
+}
+
+.food-picture-img {
+    margin: 10px;
+    width: 250px;
+    height: 250px;
+    z-index: 0;
+    display: flex;
+    object-fit: cover;
+    cursor: pointer
+}
+
+.food-pictures {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    overflow-x: auto;
+}
+
+.food-picture .time-bg {
+    z-index: 1;
+    display: flex;
+    top: -30px;
+    left: 205px;
+    background: white;
+    width: 55px;
+    height: 20px;
+    opacity: 0.5;
+    position: relative;
+}
+
+.food-picture .time {
+    z-index: 2;
+    position: relative;
+    top: -52px;
+    left: 210px;
+    display: flex;
+    width: 50px;
+}
+ 

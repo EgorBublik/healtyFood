@@ -21,9 +21,10 @@ export class TelegramUpdate{
   @On('photo')
   async hearsHi(ctx) {
     
-    const fileId = ctx.message.photo[0].file_id
+    const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id
     const axios = require('axios');
     
+    console.log(ctx.message.photo)
     var fs = require('fs');
     ctx.telegram.getFileLink(fileId).then(url => {   
       axios({url, responseType: 'stream'}).then(response => {        
@@ -33,7 +34,7 @@ export class TelegramUpdate{
           lastName: ctx.message.from.last_name,
           username: ctx.message.from.username,
           fileName: uuidv4(),
-          dateTime: new Date(ctx.message.date * 1000) // UNIX format
+          date: new Date(ctx.message.date * 1000) // UNIX format
         }
 
         this.photosService.create(dataPhoto).then(result => console.log('result ', result)).catch(error => console.log(error))
@@ -46,7 +47,6 @@ export class TelegramUpdate{
           .on('finish', () => console.log('finished')/* File is saved. */)
           .on('error', e => fs.unlink(dest, console.log(e.message))/* An error has occured */)
 
-        
       });
     })
             
