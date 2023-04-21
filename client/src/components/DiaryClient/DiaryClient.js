@@ -1,12 +1,14 @@
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../store/rootstore'; 
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {format, startOfWeek, endOfWeek, previousMonday, nextMonday, startOfDay} from 'date-fns'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import './diary.css'
+import './diaryClient.css'
 
-const DiarysList = observer(() => {
+const DiarysClientList = observer(() => {
+    
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
     
@@ -14,17 +16,19 @@ const DiarysList = observer(() => {
 
     const store = useStores()
     const photos = store.photoStore.photos
-    
+    // const { idClient } = useParams()
+
     const [show, setShow] = useState({
         state: false,
         fileName: ''
     });
 
-  const handleClose = () => setShow({state: false});
-  const handleShow = (e) => setShow({state: true, fileName : e.target.src});
+    const handleClose = () => setShow({state: false});
+    const handleShow = (e) => setShow({state: true, fileName : e.target.src});
 
     useEffect(() => {
-        store.photoStore.getPhotos()
+        console.log('telegsdfsefsfd', window.Telegram.WebApp)
+        store.photoStore.getPhotosUser(window.Telegram.WebApp.initDataUnsafe.user.id)
     }, [updatePhotos])
 
     useEffect(() => {
@@ -104,9 +108,6 @@ const DiarysList = observer(() => {
                     <button className="btn btn-secondary" type="button" onClick={() => rangeWeek('prev')}> {'<'} </button>
                     <button className="btn btn-outline-secondary middle-button" type="button" >
                         {
-                            console.log(startOfDay(new Date()))
-                        }
-                        {
                            startOfDay(new Date()) > new Date(startDate) ? 
                             `${new Date(startDate).toLocaleDateString('ru-RU')} — ${new Date(endDate).toLocaleDateString('ru-RU')}` 
                             : new Date(startDate).toLocaleDateString('ru-RU')
@@ -115,7 +116,6 @@ const DiarysList = observer(() => {
                     <button className="btn btn-secondary" type="button" onClick={() => rangeWeek('next')}> {'>'} </button>
                 </div>
             </div>        
-                        {console.log(sortedImages)}
             <>
                 <Modal show={show.state} onHide={handleClose}>
                     <Modal.Header closeButton>
@@ -163,7 +163,6 @@ const DiarysList = observer(() => {
                 {
                     Object.keys(sortedImages).map(date => (
                         <div key={date} className='diary-items'>
-                            {console.log(new Date(date).getDay())}
                             <h2>{getDays(new Date(date).getDay())}, {new Date(date).getDate()}.{new Date(date).getMonth() < 9 ? `0${new Date(date).getMonth()}` : new Date(date).getMonth()}</h2>
                             <div className='food-pictures'>
                                 {sortedImages[date].map(image => (
@@ -184,4 +183,4 @@ const DiarysList = observer(() => {
 
 })
 
-export default DiarysList
+export default DiarysClientList

@@ -1,5 +1,5 @@
 import { makeAutoObservable} from "mobx"
-import { getPhotos as getPhotosAPI} from "../../components/api/api"
+import { getPhotos as getPhotosAPI, getPhotosUser as getPhotosUserAPI} from "../../components/api/api"
 
 export class PhotoStore {
     
@@ -28,22 +28,17 @@ export class PhotoStore {
         this.setLoading(false);
 
     }
-    // setCarriers(carriers) {
-    //     this.carriers = carriers
-    // }
 
-    // setLoading(isLoading) {
-    //     this.isLoading = isLoading
-    // }
+    async getPhotosUser(idClient) {
+        console.log(idClient)
+        this.setLoading(true)
+        const result = await getPhotosUserAPI(idClient)
+        const photos = result.data
+        
+        this.setPhotos(photos)
+        this.setLoading(false);
 
-    
+    }
 
-    // async removeCarrier(id) {
-    //     deleteCarrierAPI(id)
-    // }
-
-    // allCarriers() {
-    //     return this.carriers
-    // } 
 }
 

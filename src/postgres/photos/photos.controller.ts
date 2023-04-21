@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { PhotosService } from './photos.service';
 import { CreatePhotoDto } from './dto/create-photo.dto';
 import { UpdatePhotoDto } from './dto/update-photo.dto';
@@ -15,6 +15,11 @@ export class PhotosController {
   @Get()
   getAll() {
     return this.photosService.getAll();
+  }
+
+  @Get('/:telegramId')
+  getPhotosUser(@Param('telegramId') telegramId: string) {
+    return this.photosService.getPhotosUser(telegramId);
   }
 
   // @Get(':id')

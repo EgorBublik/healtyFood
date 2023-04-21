@@ -15,8 +15,8 @@ import { UsersModule } from './postgres/users/users.module';
 import { AuthModule } from './auth/auth.module';
  
 const DEFAULT_ADMIN = {
-  email: '',
-  password: '',
+  email: 'admin@example.com',
+  password: 'password',
 }
 
 const authenticate = async (email: string, password: string) => {
@@ -55,9 +55,9 @@ AdminJS.registerAdapter({
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: '',
-      password: '',
-      database: '',
+      username: 'egorbublik',
+      password: 'fanu3169',
+      database: 'healthyfood',
       autoLoadEntities: true,
       synchronize: true,
     }),

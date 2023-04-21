@@ -6,16 +6,16 @@ export class Photo {
   id: number;
 
   @Column()
-  firstName: string;
-
-  @Column()
-  lastName: string;
+  first_name: string;
   
   @Column()
   username:string;
 
   @Column()
   fileName: string;
+
+  @Column()
+  telegramId: string;
 
   @Column({ type: 'timestamp', nullable: true })
   date: Date;

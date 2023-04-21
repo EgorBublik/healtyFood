@@ -21,6 +21,14 @@ export class PhotosService {
     return await this.photosRepository.save(createPhotoDto);
   }
 
+  async getPhotosUser(telegramId: string) {
+    return await this.photosRepository.find({
+      where: {
+        telegramId,
+      }
+    })
+  }
+
   // async getById(id: number){
   //   return this.photosRepository.getId()
   // }

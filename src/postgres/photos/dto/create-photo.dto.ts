@@ -1,8 +1,8 @@
 export class CreatePhotoDto {
 
-  firstName: string;
-  lastName: string;
+  first_name: string;
   username: string;
   fileName: string;
   date: Date;
+  telegramId: string;
 }
