@@ -1,8 +1,22 @@
 import './header.css'
-import {DropdownButton, Dropdown, Button} from 'react-bootstrap'
+import {DropdownButton, Dropdown} from 'react-bootstrap'
 import { logOut } from '../api/api'
+import { observe } from 'mobx'
+import { useStores } from '../../store/rootstore'
+import { useState, useEffect } from 'react'
+const Header = observe(() => {
 
-const Header = () => {
+    const [updateClients] = useState(0)
+
+    const store = useStores()
+    const clients = store.usersStore.users
+    
+    useEffect(() => {
+        store.usersStore.getDoctors()
+
+    }, [updateClients])
+    
+
     return (
         <div className="header ">
             <div className="row">
@@ -26,6 +40,6 @@ const Header = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Header

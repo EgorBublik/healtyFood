@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react';
-import { useStores } from '../../../store/rootstore'; 
+import { useStores } from '../../../../store/rootstore'; 
 import { useParams, useNavigate } from 'react-router-dom';
-import { assignPatientToDoctor, deleteAssignPatientToDoctor } from '../../api/api';
+import { assignPatientToDoctor, deleteAssignPatientToDoctor } from '../../../api/api';
 
 const AssignClients = observer(() => {
 
@@ -12,16 +12,15 @@ const AssignClients = observer(() => {
     const clients = store.usersStore.users
     const { idDoctor } = useParams()
 
-
     const pushBtn = (action, clientId) => {
         switch (action) {
             case 'delete': 
                 deleteAssignPatientToDoctor(idDoctor, clientId)
-                navigate('/admin-function')
+                navigate('/doctors-list')
                 break;
             case 'add':
                 assignPatientToDoctor(idDoctor, clientId)
-                navigate('/admin-function')                
+                navigate('/doctors-list')                
                 break;
         }
     }
@@ -37,9 +36,7 @@ const AssignClients = observer(() => {
                     <div className="col-1">
                         <h5>{client.username}</h5> 
                     </div>
-                    <div className="col-3">
-                        {console.log(client)}
-                        
+                    <div className="col-3">                        
                         {
                             client.doctor?.id == idDoctor && <button type="button" onClick={() => pushBtn('delete', client.id)} class="btn btn-danger">Удалить</button>                            
                         }

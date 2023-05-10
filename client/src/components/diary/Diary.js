@@ -1,16 +1,19 @@
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../store/rootstore'; 
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {format, startOfWeek, endOfWeek, previousMonday, nextMonday, startOfDay} from 'date-fns'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './diary.css'
 
 const DiarysList = observer(() => {
+
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
     
     const [updatePhotos] = useState(0)
+    const { telegramIdClient } = useParams()
 
     const store = useStores()
     const photos = store.photoStore.photos
@@ -20,11 +23,11 @@ const DiarysList = observer(() => {
         fileName: ''
     });
 
-  const handleClose = () => setShow({state: false});
-  const handleShow = (e) => setShow({state: true, fileName : e.target.src});
+    const handleClose = () => setShow({state: false});
+    const handleShow = (e) => setShow({state: true, fileName : e.target.src});
 
     useEffect(() => {
-        store.photoStore.getPhotos()
+        store.photoStore.getPhotosUser(telegramIdClient)
     }, [updatePhotos])
 
     useEffect(() => {
@@ -104,7 +107,7 @@ const DiarysList = observer(() => {
                     <button className="btn btn-secondary" type="button" onClick={() => rangeWeek('prev')}> {'<'} </button>
                     <button className="btn btn-outline-secondary middle-button" type="button" >
                         {
-                            console.log(startOfDay(new Date()))
+                            console.log(photos)
                         }
                         {
                            startOfDay(new Date()) > new Date(startDate) ? 
@@ -168,7 +171,7 @@ const DiarysList = observer(() => {
                             <div className='food-pictures'>
                                 {sortedImages[date].map(image => (
                                     <div key={image.id} className='food-picture'>
-                                        <img className='food-picture-img' onClick={handleShow} src={`http://localhost:4001/images/${image.fileName}.jpg`} alt='food'/>
+                                        <img className='food-picture-img' onClick={handleShow} src={`${image.fileName}.jpg`} alt='food'/>
                                         <div className="time-bg"></div>
                                         <div className="time">{new Date(image.date).getHours()}:{new Date(image.date).getMinutes()}</div>
                                     </div>

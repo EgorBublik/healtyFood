@@ -18,16 +18,17 @@ const PhotosList = observer(() => {
         <div className="App">
             <div className='container'>
                 <div className="header row d-flex justify-content-around">
-                <div className="col-2">
-                    <button type="button" className="header-btn btn btn-outline-primary">Информация</button>
+                    <div className="col-2">
+                        <button type="button" className="header-btn btn btn-outline-primary">Информация</button>
+                    </div>
+                    <div className="col-2">
+                        <button type="button" className="header-btn btn btn-outline-primary">Сон</button>
+                    </div>
+                    <div className="col-2">
+                        <button type="button" className="header-btn btn btn-outline-primary">Еда</button>
+                    </div>    
                 </div>
-                <div className="col-2">
-                    <button type="button" className="header-btn btn btn-outline-primary">Сон</button>
-                </div>
-                <div className="col-2">
-                    <button type="button" className="header-btn btn btn-outline-primary">Еда</button>
-                </div>    
-                </div>
+                
                 <div className="image-block">
                     {photos.map((photo, index) => {
                         return (

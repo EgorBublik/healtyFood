@@ -1,24 +1,12 @@
 import { observer } from 'mobx-react-lite'
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from 'react'
-import { useStores } from '../../store/rootstore'; 
-import { createDoctor } from "../api/api";
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react'
+import { createDoctor } from '../../api/api';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import './adminFunction.css'
 
-const AdminFunction = observer (() => {
+const CreateDoctor = observer (() => {
     
-    const [updateDoctors, setUpdateDoctors] = useState(0)
-
-    const store = useStores()
-    const doctors = store.usersStore.users
-    
-    useEffect(() => {
-        store.usersStore.getDoctors()
-    }, [updateDoctors])
-
     const [errors, setErrors] = useState()
     const {register, handleSubmit } = useForm({});
 
@@ -74,7 +62,7 @@ const AdminFunction = observer (() => {
                             <Modal.Title>Что-то если надо</Modal.Title>
                         </Modal.Header>
                         
-                        <Modal.Body>Ы
+                        <Modal.Body>
                             
                             <div className="message-create">
                                 {show.message}
@@ -93,22 +81,8 @@ const AdminFunction = observer (() => {
                 </>
             </div>
             
-            <div className="doctors">
-                <ul className="list-group">
-                        {doctors.map((doctor) => {
-                            return (
-                                <NavLink to={`/assignClients/${doctor.id}`} doctor={doctor.username}>
-                                    <div className="list-group-item list-group-item-action" aria-current="true">
-                                        {doctor.username}
-                                    </div>                
-                                </NavLink>
-                            )
-                        })}
-                    
-                </ul>
-            </div>
         </div>
     )
 })
 
-export default AdminFunction
+export default CreateDoctor

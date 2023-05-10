@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../store/rootstore'; 
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import {format, startOfWeek, endOfWeek, previousMonday, nextMonday, startOfDay} from 'date-fns'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -16,7 +15,7 @@ const DiarysClientList = observer(() => {
 
     const store = useStores()
     const photos = store.photoStore.photos
-    // const { idClient } = useParams()
+    
 
     const [show, setShow] = useState({
         state: false,
@@ -167,7 +166,7 @@ const DiarysClientList = observer(() => {
                             <div className='food-pictures'>
                                 {sortedImages[date].map(image => (
                                     <div key={image.id} className='food-picture'>
-                                        <img className='food-picture-img' onClick={handleShow} src={`http://localhost:4001/images/${image.fileName}.jpg`} alt='food'/>
+                                        <img className='food-picture-img' onClick={handleShow} src={`${image.fileName}.jpg`} alt='food'/>
                                         <div className="time-bg"></div>
                                         <div className="time">{new Date(image.date).getHours()}:{new Date(image.date).getMinutes()}</div>
                                     </div>

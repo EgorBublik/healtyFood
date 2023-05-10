@@ -2,6 +2,10 @@
 .app {
   width: 100%;
 }
+
+a {
+  text-decoration: none !important;
+}
 /* 
 .header-btn {
   width: 200px;
