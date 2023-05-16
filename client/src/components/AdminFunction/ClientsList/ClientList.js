@@ -17,8 +17,6 @@ const ClientList = observer (() => {
 
     return (
         <div className="admin-function container">
-        {console.log(clients)}
-
             <ul class="list-group">
                 {
                     clients.map((client) => {

@@ -15,7 +15,6 @@ export const getPhotos = async () => {
 
 export const getPhotosUser = async(telegramId) => {
   let list = await axios.get(`${HOSTPhotos}${telegramId}`)
-  console.log(list)
   return list
 
 }

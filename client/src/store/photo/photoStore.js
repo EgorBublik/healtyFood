@@ -30,7 +30,6 @@ export class PhotoStore {
     }
 
     async getPhotosUser(idClient) {
-        console.log(idClient)
         this.setLoading(true)
         const result = await getPhotosUserAPI(idClient)
         const photos = result.data

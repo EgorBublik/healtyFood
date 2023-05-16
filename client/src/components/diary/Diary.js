@@ -107,9 +107,6 @@ const DiarysList = observer(() => {
                     <button className="btn btn-secondary" type="button" onClick={() => rangeWeek('prev')}> {'<'} </button>
                     <button className="btn btn-outline-secondary middle-button" type="button" >
                         {
-                            console.log(photos)
-                        }
-                        {
                            startOfDay(new Date()) > new Date(startDate) ? 
                             `${new Date(startDate).toLocaleDateString('ru-RU')} — ${new Date(endDate).toLocaleDateString('ru-RU')}` 
                             : new Date(startDate).toLocaleDateString('ru-RU')
@@ -166,7 +163,6 @@ const DiarysList = observer(() => {
                 {
                     Object.keys(sortedImages).map(date => (
                         <div key={date} className='diary-items'>
-                            {console.log(new Date(date).getDay())}
                             <h2>{getDays(new Date(date).getDay())}, {new Date(date).getDate()}.{new Date(date).getMonth() < 9 ? `0${new Date(date).getMonth()}` : new Date(date).getMonth()}</h2>
                             <div className='food-pictures'>
                                 {sortedImages[date].map(image => (

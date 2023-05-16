@@ -1,12 +1,12 @@
-import { Markup } from "telegraf";
+// import { Markup } from "telegraf";
 
-export function actionButtons() {
-    return Markup.inlineKeyboard(
-        [
-            Markup.button.webApp('WebApps', ``)
-        ],
-        {
-            // columns: 1
-        }
-    )
-}
+// export function actionButtons() {
+//     return Markup.inlineKeyboard(
+//         [
+//             Markup.button.webApp('WebApps', ``)
+//         ],
+//         {
+//             // columns: 1
+//         }
+//     )
+// }

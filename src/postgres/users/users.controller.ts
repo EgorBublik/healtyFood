@@ -1,16 +1,20 @@
-import { Controller, Get, Post, Body, Param} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from './entities/user.entity';
+import { Request } from 'express';
+// import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // @UseGuards(AuthGuard)
   @Get()
-  getAll() {
+  getAll(@Req() req: any) {
+    // console.log(req)
     return this.usersService.getAll();
   }
 
@@ -40,7 +44,6 @@ export class UsersController {
 
   @Get(':role')
   getUsers(@Param('role') role: Role) {
-    console.log(role)
     return this.usersService.getUsers({role});
   }
 

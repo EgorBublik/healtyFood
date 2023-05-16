@@ -17,7 +17,6 @@ const CreateDoctor = observer (() => {
 
     const handleClose = () => setShow({state: false, message: ''});
     const handleShow = (message) => {
-        console.log('создан')
         setShow({state: true, message: message});
     }
 

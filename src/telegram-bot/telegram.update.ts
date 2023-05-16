@@ -2,7 +2,7 @@ import { Update, Hears, Start, On } from "nestjs-telegraf";
 import { Context } from "telegraf";
 import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid'
-import { actionButtons } from "./telegram.buttons";
+// import { actionButtons } from "./telegram.buttons";
 import { PhotosService } from "src/postgres/photos/photos.service";
 import { UsersService } from "src/postgres/users/users.service";
 import { Injectable } from "@nestjs/common";
@@ -16,8 +16,6 @@ export class TelegramUpdate{
 
   @Start()
   async startCommand(ctx: Context) {
-
-      // console.log(ctx.message.from.username)
 
       const user = await this.usersService.getUser({
         where: {
@@ -37,7 +35,7 @@ export class TelegramUpdate{
         await this.usersService.create(dataUser).then(result => console.log('result ', result)).catch(error => console.log(error))    
       }
 
-    await ctx.reply('Привет, что ты хочешь сделать?', actionButtons())
+    // await ctx.reply('Привет, что ты хочешь сделать?', actionButtons())
   }  
 
   @On('photo')

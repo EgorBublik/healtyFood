@@ -26,7 +26,6 @@ const DiarysClientList = observer(() => {
     const handleShow = (e) => setShow({state: true, fileName : e.target.src});
 
     useEffect(() => {
-        console.log('telegsdfsefsfd', window.Telegram.WebApp)
         store.photoStore.getPhotosUser(window.Telegram.WebApp.initDataUnsafe.user.id)
     }, [updatePhotos])
 
