@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Req, UseGuards, Request, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from './entities/user.entity';
-import { Request } from 'express';
+// import { Request } from 'express';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 // import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('users')
@@ -14,7 +15,6 @@ export class UsersController {
   // @UseGuards(AuthGuard)
   @Get()
   getAll(@Req() req: any) {
-    // console.log(req)
     return this.usersService.getAll();
   }
 
@@ -42,9 +42,19 @@ export class UsersController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':role')
-  getUsers(@Param('role') role: Role) {
-    return this.usersService.getUsers({role});
+  getUsers(@Param('role') role: Role, @Request() {user}) {
+    if (user.role === 'admin') {
+      return this.usersService.getUsers({role});
+    }
+
+    if (user.role === 'doctor' && user.userId) {
+      console.log('role: ', user.role)
+      return this.usersService.getClientsByDoctor(user.userId)
+    }
+
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
 
   @Post('/assign-patient/:doctorId/:patientId')

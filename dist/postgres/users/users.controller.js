@@ -18,6 +18,7 @@ const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const bcrypt = require("bcrypt");
 const user_entity_1 = require("./entities/user.entity");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -34,8 +35,15 @@ let UsersController = class UsersController {
         const result = await this.usersService.createUser(username, hashedPassword, role, telegramId);
         return result;
     }
-    getUsers(role) {
-        return this.usersService.getUsers({ role });
+    getUsers(role, { user }) {
+        if (user.role === 'admin') {
+            return this.usersService.getUsers({ role });
+        }
+        if (user.role === 'doctor' && user.userId) {
+            console.log('role: ', user.role);
+            return this.usersService.getClientsByDoctor(user.userId);
+        }
+        throw new common_1.HttpException('Forbidden', common_1.HttpStatus.FORBIDDEN);
     }
     async assignPatientToDoctor(doctorId, patientId) {
         return this.usersService.assignPatientToDoctor(doctorId, patientId);
@@ -69,10 +77,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "createUser", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(':role'),
     __param(0, (0, common_1.Param)('role')),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUsers", null);
 __decorate([

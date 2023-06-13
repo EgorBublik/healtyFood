@@ -4,6 +4,7 @@ import { logOut } from '../api/api'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../store/rootstore'
 import { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Header = observer(() => {
 
@@ -23,12 +24,21 @@ const Header = observer(() => {
             <div className="row">
                 <div className="left-header col-6 row">
                     <div className="qw">
+                        {console.log(clients)}
                         <DropdownButton 
                             title={'Имя клиента '}>
-                            
-                            <Dropdown.Item eventKey="1" active>Клиент 1</Dropdown.Item>
-                            <Dropdown.Item eventKey="2">Клиент 2</Dropdown.Item>
-                            <Dropdown.Item eventKey="3">Клиент 3</Dropdown.Item>
+                            {
+                                clients.map((client, index) => {
+                                    console.log('index ', index)
+                                    return (
+                                        <Dropdown.Item eventKey={index}>
+                                            <NavLink to={`/clients/${client.telegramId}`}>
+                                                {client.username}
+                                            </NavLink>
+                                        </Dropdown.Item>        
+                                    )
+                                })
+                            }
                             
                         </DropdownButton>
 

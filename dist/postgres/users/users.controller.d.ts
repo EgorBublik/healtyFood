@@ -12,7 +12,9 @@ export declare class UsersController {
         role: string;
         telegramId: string;
     } & import("./entities/user.entity").User>;
-    getUsers(role: Role): Promise<import("./entities/user.entity").User[]>;
+    getUsers(role: Role, { user }: {
+        user: any;
+    }): Promise<import("./entities/user.entity").User[]>;
     assignPatientToDoctor(doctorId: number, patientId: number): Promise<import("./entities/user.entity").User>;
     deleteAssignPatientToDoctor(doctorId: number, patientId: number): Promise<import("./entities/user.entity").User>;
 }

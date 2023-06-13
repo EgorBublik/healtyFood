@@ -40,6 +40,17 @@ let UsersService = class UsersService {
             },
         });
     }
+    async getClientsByDoctor(id) {
+        return await this.usersRepository.find({
+            where: {
+                doctor: { id },
+            },
+            relations: {
+                clients: true,
+                doctor: true
+            }
+        });
+    }
     async getUser(query) {
         return await this.usersRepository.findOne(query);
     }

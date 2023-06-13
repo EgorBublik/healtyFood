@@ -39,6 +39,9 @@ let TelegramUpdate = class TelegramUpdate {
             await this.usersService.create(dataUser).then(result => console.log('result ', result)).catch(error => console.log(error));
         }
     }
+    async hearshi(ctx) {
+        ctx.reply('yes');
+    }
     async hearsHi(ctx) {
         const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id;
         const axios = require('axios');
@@ -69,6 +72,12 @@ __decorate([
     __metadata("design:paramtypes", [telegraf_1.Context]),
     __metadata("design:returntype", Promise)
 ], TelegramUpdate.prototype, "startCommand", null);
+__decorate([
+    (0, nestjs_telegraf_1.On)('sticker'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], TelegramUpdate.prototype, "hearshi", null);
 __decorate([
     (0, nestjs_telegraf_1.On)('photo'),
     __metadata("design:type", Function),

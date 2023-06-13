@@ -6,5 +6,6 @@ export declare class TelegramUpdate {
     private readonly usersService;
     constructor(photosService: PhotosService, usersService: UsersService);
     startCommand(ctx: Context): Promise<void>;
+    hearshi(ctx: any): Promise<void>;
     hearsHi(ctx: any): Promise<void>;
 }

@@ -34,6 +34,18 @@ export class UsersService {
     })
   }
 
+  async getClientsByDoctor(id: number){
+    return await this.usersRepository.find({
+      where: {
+        doctor:{id},
+      },
+      relations: {
+        clients: true,
+        doctor: true
+      }
+    })
+  }
+
   async getUser(query: object) {
     return await this.usersRepository.findOne(query)
   }

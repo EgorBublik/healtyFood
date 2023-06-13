@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './diaryClient.css'
 
-const DiarysClientList = observer(() => {
+const DiariesClientList = observer(() => {
     
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
@@ -15,7 +15,6 @@ const DiarysClientList = observer(() => {
 
     const store = useStores()
     const photos = store.photoStore.photos
-    
 
     const [show, setShow] = useState({
         state: false,
@@ -114,6 +113,7 @@ const DiarysClientList = observer(() => {
                     <button className="btn btn-secondary" type="button" onClick={() => rangeWeek('next')}> {'>'} </button>
                 </div>
             </div>        
+            <p>{window.Telegram.WebApp.initDataUnsafe.user.id}</p>
             <>
                 <Modal show={show.state} onHide={handleClose}>
                     <Modal.Header closeButton>
@@ -164,11 +164,13 @@ const DiarysClientList = observer(() => {
                             <h2>{getDays(new Date(date).getDay())}, {new Date(date).getDate()}.{new Date(date).getMonth() < 9 ? `0${new Date(date).getMonth()}` : new Date(date).getMonth()}</h2>
                             <div className='food-pictures'>
                                 {sortedImages[date].map(image => (
+                                <div>
                                     <div key={image.id} className='food-picture'>
-                                        <img className='food-picture-img' onClick={handleShow} src={`${image.fileName}.jpg`} alt='food'/>
+                                        <img className='food-picture-img' onClick={handleShow} src={`${process.env.REACT_APP_URL_IMAGES}${image.fileName}.jpg`} alt='food'/>
                                         <div className="time-bg"></div>
                                         <div className="time">{new Date(image.date).getHours()}:{new Date(image.date).getMinutes()}</div>
                                     </div>
+                                </div>
                                 ))}
                             </div>
                         </div>
@@ -181,4 +183,4 @@ const DiarysClientList = observer(() => {
 
 })
 
-export default DiarysClientList
+export default DiariesClientList

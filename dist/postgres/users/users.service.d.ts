@@ -8,6 +8,7 @@ export declare class UsersService {
     getUsers({ role }: {
         role: Role;
     }): Promise<User[]>;
+    getClientsByDoctor(id: number): Promise<User[]>;
     getUser(query: object): Promise<User>;
     create(createUserDto: CreateUserDto): Promise<CreateUserDto & User>;
     createUser(username: string, password: string, role: string, telegramId: string): Promise<{

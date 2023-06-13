@@ -33,7 +33,6 @@ export class PhotoStore {
         this.setLoading(true)
         const result = await getPhotosUserAPI(idClient)
         const photos = result.data
-        
         this.setPhotos(photos)
         this.setLoading(false);
 

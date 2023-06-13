@@ -1,11 +1,20 @@
 import axios from 'axios'
 
-const HOSTPhotos = ""
-const HOSTAuthorization = ""
-const HOSTDoctors = ""
-const HOSTUsers = ""
-const HOSTAssign = ""
-const HOSTDeleteAssign = ""
+// const HOSTPhotos = "http://localhost:4001/photos/"
+// const HOSTAuthorization = "http://localhost:4001/auth/login/"
+// const HOSTDoctors = "http://localhost:4001/users/signup"
+// const HOSTUsers = "http://localhost:4001/users/"
+// const HOSTAssign = "http://localhost:4001/users/assign-patient/"
+// const HOSTDeleteAssign = "http://localhost:4001/users/delete-assign-pacient/"
+
+const HOSTPhotos = process.env.REACT_APP_PHOTOS
+const HOSTAuthorization = process.env.REACT_APP_AUTHORIZATION
+const HOSTDoctors = process.env.REACT_APP_DOCTORS
+const HOSTUsers = process.env.REACT_APP_USERS
+const HOSTAssign = process.env.REACT_APP_ASSIGN
+const HOSTDeleteAssign = process.env.REACT_APP_DELETE_ASSIGN
+
+console.log('test1 ',process.env.REACT_APP_TEST1)
 
 export const getPhotos = async () => {
   let list = await axios.get(HOSTPhotos)
@@ -45,12 +54,10 @@ export const checkAuthorization = async (authState) => {
   return axios.post(`${HOSTAuthorization}`, authState)
     .then(response => {
       const token = response.data.access_token;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", authState.username)
-      setAuthToken(token);
-      window.location.href = './diary'
-      return
-  })
+      const role = response.data.role;
+      return {token, role}
+    }
+  )
 
 }
 
@@ -60,20 +67,14 @@ export const logOut = async () => {
   window.location.href = 'auth'
 }
 
-export const setAuthToken = token => {
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else delete axios.defaults.headers.common["Authorization"];
-}
-
 export const createDoctor = async (data) => {
   return await axios.post(`${HOSTDoctors}`, {...data, role: 'doctor'})
 }
 
 export const assignPatientToDoctor = async (doctorId, clientId) => {
-  return await axios.post(`${HOSTAssign}${doctorId}/${clientId}`, )
+  return await axios.post(`${HOSTAssign}${doctorId}/${clientId}/`, )
 }
 
 export const deleteAssignPatientToDoctor = async (doctorId, clientId) => {
-  return await axios.post(`${HOSTDeleteAssign}${doctorId}/${clientId}`, )
+  return await axios.post(`${HOSTDeleteAssign}${doctorId}/${clientId}/`, )
 }

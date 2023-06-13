@@ -13,7 +13,13 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UsersModule } from './postgres/users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import configurations from './configurations';
+import { ConfigService } from '@nestjs/config';
+import { DatabaseConfig } from './configurations/database.config';
  
+// const database = configurations
+
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
   password: 'password',
@@ -33,6 +39,10 @@ AdminJS.registerAdapter({
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configurations]
+    }),
     AdminModule.createAdminAsync({
       useFactory: () => ({
         adminJsOptions: {
@@ -51,15 +61,9 @@ AdminJS.registerAdapter({
         },
       }),
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: '',
-      password: '',
-      database: '',
-      autoLoadEntities: true,
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useClass: DatabaseConfig
     }),
     PhotosModule,   
     UsersModule,

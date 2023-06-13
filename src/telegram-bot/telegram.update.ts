@@ -38,6 +38,11 @@ export class TelegramUpdate{
     // await ctx.reply('Привет, что ты хочешь сделать?', actionButtons())
   }  
 
+  @On('sticker')
+  async hearshi(ctx) {
+    ctx.reply('yes')
+  }
+
   @On('photo')
   async hearsHi(ctx) {
     

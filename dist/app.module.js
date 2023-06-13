@@ -20,6 +20,9 @@ const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
 const users_module_1 = require("./postgres/users/users.module");
 const auth_module_1 = require("./auth/auth.module");
+const config_1 = require("@nestjs/config");
+const configurations_1 = require("./configurations");
+const database_config_1 = require("./configurations/database.config");
 const DEFAULT_ADMIN = {
     email: 'admin@example.com',
     password: 'password',
@@ -39,6 +42,10 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                load: [configurations_1.default]
+            }),
             nestjs_1.AdminModule.createAdminAsync({
                 useFactory: () => ({
                     adminJsOptions: {
@@ -57,15 +64,9 @@ AppModule = __decorate([
                     },
                 }),
             }),
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'postgres',
-                host: 'localhost',
-                port: 5432,
-                username: '',
-                password: '',
-                database: '',
-                autoLoadEntities: true,
-                synchronize: true,
+            typeorm_1.TypeOrmModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                useClass: database_config_1.DatabaseConfig
             }),
             photos_module_1.PhotosModule,
             users_module_1.UsersModule,

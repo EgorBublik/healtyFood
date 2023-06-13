@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './diary.css'
 
-const DiarysList = observer(() => {
+const DiariesList = observer(() => {
 
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
@@ -17,6 +17,7 @@ const DiarysList = observer(() => {
 
     const store = useStores()
     const photos = store.photoStore.photos
+    console.log('photos: ',photos)
     
     const [show, setShow] = useState({
         state: false,
@@ -115,7 +116,6 @@ const DiarysList = observer(() => {
                     <button className="btn btn-secondary" type="button" onClick={() => rangeWeek('next')}> {'>'} </button>
                 </div>
             </div>        
-                        {console.log(sortedImages)}
             <>
                 <Modal show={show.state} onHide={handleClose}>
                     <Modal.Header closeButton>
@@ -167,7 +167,7 @@ const DiarysList = observer(() => {
                             <div className='food-pictures'>
                                 {sortedImages[date].map(image => (
                                     <div key={image.id} className='food-picture'>
-                                        <img className='food-picture-img' onClick={handleShow} src={`${image.fileName}.jpg`} alt='food'/>
+                                        <img className='food-picture-img' onClick={handleShow} src={`${process.env.REACT_APP_URL_IMAGES}${image.fileName}.jpg`} alt='food'/>
                                         <div className="time-bg"></div>
                                         <div className="time">{new Date(image.date).getHours()}:{new Date(image.date).getMinutes()}</div>
                                     </div>
@@ -183,4 +183,4 @@ const DiarysList = observer(() => {
 
 })
 
-export default DiarysList
+export default DiariesList

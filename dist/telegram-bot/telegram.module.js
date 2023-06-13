@@ -10,21 +10,22 @@ exports.TelegramModule = void 0;
 const common_1 = require("@nestjs/common");
 const telegram_service_1 = require("./telegram.service");
 const nestjs_telegraf_1 = require("nestjs-telegraf");
-const LocalSession = require("telegraf-session-local");
 const telegram_update_1 = require("./telegram.update");
-const sessions = new LocalSession({ database: 'sesion_db.json' });
 const photos_module_1 = require("../postgres/photos/photos.module");
 const users_module_1 = require("../postgres/users/users.module");
+const config_1 = require("@nestjs/config");
+const telegram_config_1 = require("../configurations/telegram.config");
 let TelegramModule = class TelegramModule {
 };
 TelegramModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule,
             photos_module_1.PhotosModule,
             users_module_1.UsersModule,
-            nestjs_telegraf_1.TelegrafModule.forRoot({
-                middlewares: [sessions.middleware()],
-                token: ''
+            nestjs_telegraf_1.TelegrafModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                useClass: telegram_config_1.TelegramConfig
             })
         ],
         controllers: [],
